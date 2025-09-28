@@ -1,36 +1,147 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 탄소 배출량 대시보드
 
-## Getting Started
+**Next.js 14**, **TypeScript**, **TailwindCSS**로 구축한 현대적인 웹 기반 온실가스 배출량 대시보드입니다. 이 프로젝트는 HanaLoop을 위한 프론트엔드 과제로, 기업의 배출량 데이터 시각화와 지속가능성 포스트 관리를 위해 개발되었습니다.
 
-First, run the development server:
+![대시보드 미리보기](https://via.placeholder.com/800x400/1f2937/ffffff?text=Carbon+Dashboard)
+
+## ✨ 주요 기능
+
+### 📊 대시보드 홈
+- 다중 기업 배출량 비교 차트
+- 반응형, 현대적 디자인
+- 실시간 데이터 시각화
+
+### 🏢 기업 상세 페이지
+- 개별 기업의 시간별 배출량 추적
+- 국가별 데이터 및 월별 세부 분석
+- 인터랙티브 차트 및 분석 도구
+
+### 📝 포스트 관리
+- 기업과 연결된 모든 지속가능성 포스트 탐색
+- 전체 콘텐츠가 포함된 상세 포스트 보기
+- 시뮬레이션된 백엔드와 연동하여 새 포스트 작성
+
+### 🧭 내비게이션
+- 지속적인 사이드바 내비게이션
+- 기업 프로필 및 보고서에 빠른 접근
+- 직관적인 사용자 경험
+
+## 🛠 기술 스택
+
+| 기술 | 용도 |
+|------|------|
+| **Next.js 14** | App Router가 포함된 React 프레임워크 |
+| **TypeScript** | 타입 안전성을 위한 개발 |
+| **Tailwind CSS** | 유틸리티 우선 스타일링 |
+| **Recharts** | 차트 시각화 라이브러리 |
+| **React 18** | 훅을 지원하는 UI 라이브러리 |
+
+## 🚀 시작하기
+
+### 사전 요구사항
+- Node.js 18+ 
+- npm 또는 yarn
+
+### 설치 방법
 
 ```bash
+# 저장소 복제
+git clone <repository-url>
+cd carbon-dashboard
+
+# 의존성 설치
+npm install
+
+# 개발 서버 시작
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[http://localhost:3000](http://localhost:3000)에서 애플리케이션을 확인할 수 있습니다.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 프로덕션 빌드
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# 프로덕션 빌드 생성
+npm run build
 
-## Learn More
+# 프로덕션 서버 시작
+npm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 📋 프로젝트 가정사항
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **리소스 연결**: 새 포스트는 `resourceUid`를 통해 자동으로 첫 번째 기업(c1)에 연결됩니다
+- **오류 처리**: 15% 시뮬레이션 실패율과 함께 기본적인 오류 처리가 구현되었습니다
+- **데이터 시각화**: 다중 기업 비교는 최적의 명확성을 위해 선형 차트를 사용합니다
+- **인증**: 구현되지 않음 (프론트엔드 과제 범위 밖)
+- **디자인 시스템**: 접근성과 시각적 구분을 위해 색상과 레이아웃을 최적화했습니다
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🏗 아키텍처
 
-## Deploy on Vercel
+### 데이터 플로우
+```
+lib/api.ts (시뮬레이션된 백엔드)
+    ↓
+fetchCompanies() → 대시보드 / 기업 페이지
+    ↓
+fetchPosts() → 포스트 페이지
+    ↓
+createOrUpdatePost() → 새 포스트 폼
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 핵심 컴포넌트
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| 컴포넌트 | 용도 |
+|----------|------|
+| `Navigation` | 기업 링크가 포함된 지속적 사이드바 |
+| `EmissionsChart` | 단일 기업 시계열 시각화 |
+| `MultiCompanyChart` | 비교 배출량 분석 |
+| `PostForm` | 지속가능성 포스트 생성/편집 |
+
+### 상태 관리
+- 클라이언트 사이드 React 훅 (`useState`, `useEffect`)
+- 현실적인 지연시간과 실패 시나리오가 포함된 시뮬레이션 백엔드
+- props 기반 업데이트로 효율적인 재렌더링
+
+## 🎨 디자인 결정사항
+
+### 시각적 계층구조
+- **내비게이션**: 호버 상태와 명확한 계층구조를 가진 깔끔한 왼쪽 사이드바
+- **카드**: 콘텐츠 그룹핑을 위한 일관된 `bg-white rounded-xl shadow p-4` 스타일링
+- **차트**: 반응형, 접근 가능한 데이터 시각화를 위한 Recharts 구현
+- **레이아웃**: 최적의 데스크톱 경험을 보장하는 Flexbox 기반 반응형 디자인
+
+### 사용자 경험
+- 직관적인 내비게이션 패턴
+- 검증이 포함된 접근 가능한 폼 입력
+- 로딩 상태 및 오류 처리
+- 반응형 디자인 원칙
+
+## ⏱ 개발 타임라인
+
+| 단계 | 소요시간 | 작업 내용 |
+|------|----------|-----------|
+| **설정** | 15-20분 | Next.js + Tailwind 구성 |
+| **핵심 개발** | 4-5시간 | 컴포넌트, 페이지, 라우팅 |
+| **차트 및 시각화** | 2시간 | 다중 기업 비교, 데이터 통합 |
+| **문서화 및 마무리** | 30-45분 | README, 코드 정리, 가정사항 정리 |
+| **전체** | **약 7-8시간** | 완전한 프론트엔드 구현 |
+
+## 📁 프로젝트 구조
+
+```
+src/
+├── app/                 # Next.js App Router 페이지
+├── components/          # 재사용 가능한 React 컴포넌트
+├── lib/                # API 시뮬레이션 및 유틸리티
+├── types/              # TypeScript 타입 정의
+└── styles/             # 전역 스타일 및 Tailwind 설정
+```
+
+## 🤝 기여하기
+
+이것은 HanaLoop을 위한 시연 프로젝트입니다. 질문이나 피드백이 있으시면 개발팀에 연락해 주세요.
+
+## 📄 라이선스
+
+이 프로젝트는 평가 목적으로 생성되었으며 프로덕션 사용을 위한 것이 아닙니다.
