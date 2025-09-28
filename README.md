@@ -2,7 +2,7 @@
 
 **Next.js 14**, **TypeScript**, **TailwindCSS**로 구축한 현대적인 웹 기반 온실가스 배출량 대시보드입니다. 이 프로젝트는 HanaLoop을 위한 프론트엔드 과제로, 기업의 배출량 데이터 시각화와 지속가능성 포스트 관리를 위해 개발되었습니다.
 
-![대시보드 미리보기](https://github.com/user-attachments/assets/b528bbaa-e7f5-4e37-ae71-6f663627cbfd)
+![대시보드 미리보기](https://github.com/user-attachments/assets/746637bf-aeaa-4c50-aa61-c527c05f559c)
 
 ## ✨ 주요 기능
 
