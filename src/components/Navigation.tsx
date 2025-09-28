@@ -15,24 +15,36 @@ export default function Navigation() {
   }, []);
 
   return (
-    <aside className="w-64 bg-gray-900 text-white p-4 min-h-screen">
-      <h2 className="text-xl font-bold mb-6">Carbon Dashboard</h2>
+    <aside className="w-64 bg-gray-900 text-white p-4 min-h-screen shadow-2xl">
+      <Link href="/" className="group block mb-8 transition duration-300">
+        <h2 className="text-xl font-extrabold tracking-wider border-b border-gray-700/50 pb-3">
+          <span className="text-green-400">🌱</span> Carbon Dashboard
+        </h2>
+      </Link>
+
       <nav className="space-y-2">
+        <p className="text-xs font-semibold uppercase text-gray-400 mt-4 mb-2 tracking-wider">
+          Companies
+        </p>
+
         {companies.map((c) => (
           <Link
             key={c.id}
             href={`/companies/${c.id}`}
-            className="block px-2 py-1 rounded hover:bg-gray-700"
+            className="flex items-center px-3 py-2 rounded-lg text-sm transition duration-150 hover:bg-gray-700 hover:text-white"
           >
             {c.name}
           </Link>
         ))}
-        <Link
-          href="/posts"
-          className="block px-2 py-1 rounded hover:bg-gray-700 mt-4"
-        >
-          Reports
-        </Link>
+
+        <div className="pt-4 border-t border-gray-700/50">
+          <Link
+            href="/posts"
+            className="flex items-center px-3 py-2 rounded-lg text-sm font-semibold transition duration-150 hover:bg-gray-700 hover:text-white"
+          >
+            📄 Reports
+          </Link>
+        </div>
       </nav>
     </aside>
   );

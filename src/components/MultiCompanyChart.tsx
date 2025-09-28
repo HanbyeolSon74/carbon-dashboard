@@ -1,4 +1,3 @@
-// src/components/MultiCompanyChart.tsx
 "use client";
 import { Company } from "@/types/models";
 import {
@@ -17,12 +16,10 @@ interface Props {
 }
 
 export default function MultiCompanyChart({ companies }: Props) {
-  // 모든 회사의 yearMonth를 합쳐서 고유 리스트
   const allMonths = Array.from(
     new Set(companies.flatMap((c) => c.emissions.map((e) => e.yearMonth)))
   ).sort();
 
-  // 차트용 데이터 생성
   const data = allMonths.map((month) => {
     const item: Record<string, string | number> = { month };
     companies.forEach((c) => {
@@ -32,28 +29,72 @@ export default function MultiCompanyChart({ companies }: Props) {
     return item;
   });
 
-  const colors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"];
+  const colors = [
+    "#34D399",
+    "#60A5FA",
+    "#FBBF24",
+    "#F87171",
+    "#A78BFA",
+    "#FB923C",
+  ];
 
   return (
-    <div className="bg-white rounded-xl shadow p-4">
-      <h2 className="text-lg font-bold mb-2">Emissions Comparison</h2>
+    <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100 transition duration-300 hover:shadow-2xl">
+      <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">
+        기업별 배출량 비교 (Emissions Comparison)
+      </h2>
       <ResponsiveContainer width="100%" height={400}>
         <LineChart
           data={data}
-          margin={{ top: 20, right: 20, left: 0, bottom: 0 }}
+          margin={{ top: 10, right: 30, left: 20, bottom: 5 }}
         >
-          <CartesianGrid stroke="#ccc" />
-          <XAxis dataKey="month" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
+          <CartesianGrid
+            stroke="#E5E7EB"
+            vertical={false}
+            strokeDasharray="3 3"
+          />
+
+          <XAxis
+            dataKey="month"
+            tickLine={false}
+            axisLine={{ stroke: "#E5E7EB" }}
+            style={{ fontSize: "12px", fill: "#6B7280" }}
+          />
+
+          <YAxis
+            tickLine={false}
+            axisLine={false}
+            style={{ fontSize: "12px", fill: "#6B7280" }}
+          />
+
+          <Tooltip
+            contentStyle={{
+              borderRadius: "8px",
+              border: "1px solid #E5E7EB",
+              boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+            }}
+          />
+
+          <Legend
+            verticalAlign="bottom"
+            wrapperStyle={{ paddingTop: "20px", fontSize: "14px" }}
+            height={36}
+          />
+
           {companies.map((c, idx) => (
             <Line
               key={c.id}
               type="monotone"
               dataKey={c.name}
               stroke={colors[idx % colors.length]}
-              activeDot={{ r: 6 }}
+              strokeWidth={3}
+              dot={false}
+              activeDot={{
+                r: 5,
+                fill: colors[idx % colors.length],
+                stroke: "#fff",
+                strokeWidth: 2,
+              }}
             />
           ))}
         </LineChart>
